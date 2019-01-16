@@ -1,6 +1,11 @@
 # postman2jmx
 Postman collection to Jmeter jmx file converter.
 
+### Note
+
+- postman2jmx converter only converts the Postman V2+ exported files!
+- feel free to send any pull requests.
+
 ### Installation
 
 postman2jmx requires Java8+ and Maven 3+.
@@ -26,3 +31,7 @@ $ cd target/Postman2Jmx
 $ java -jar my_postman_collection.json my_jmx_file.jmx
 ```
 
+License
+----
+
+The MIT License (MIT)
