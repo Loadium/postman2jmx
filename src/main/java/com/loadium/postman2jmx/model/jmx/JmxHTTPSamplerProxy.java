@@ -1,6 +1,5 @@
 package com.loadium.postman2jmx.model.jmx;
 
-import com.loadium.postman2jmx.model.postman.PostmanFormDataBody;
 import com.loadium.postman2jmx.model.postman.PostmanItem;
 import com.loadium.postman2jmx.model.postman.PostmanQuery;
 import com.loadium.postman2jmx.utils.UrlUtils;
@@ -12,7 +11,6 @@ import org.apache.jmeter.testelement.TestElement;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 public class JmxHTTPSamplerProxy {
     public static HTTPSamplerProxy newInstance(PostmanItem postmanItem) {
@@ -34,29 +32,40 @@ public class JmxHTTPSamplerProxy {
         httpSamplerProxy.setMethod(postmanItem.getRequest().getMethod());
 
 
-        URL url = null;
-        try {
-            url = UrlUtils.getUrl(postmanItem.getRequest().getUrl().getRaw());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        String rawUrl = postmanItem.getRequest().getUrl().getRaw();
+
+        if (UrlUtils.isVariableUrl(rawUrl)) {
+            String url = UrlUtils.getVariableUrl(rawUrl);
+            String path = UrlUtils.getVariablePath(rawUrl);
+
+            httpSamplerProxy.setDomain(url);
+            httpSamplerProxy.setPath(path);
+        } else {
+            URL url = null;
+
+            try {
+                url = UrlUtils.getUrl(rawUrl);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            String domain = UrlUtils.getDomain(url);
+            int port = UrlUtils.getPort(url);
+            String path = UrlUtils.getPath(url);
+            String protocol = UrlUtils.getProtocol(url);
+
+            httpSamplerProxy.setDomain(domain);
+            httpSamplerProxy.setPath(path);
+
+            if (port != -1) {
+                httpSamplerProxy.setPort(port);
+            }
+            httpSamplerProxy.setProtocol(protocol);
         }
 
-        String domain = UrlUtils.getDomain(url);
-        int port = UrlUtils.getPort(url);
-        String path = UrlUtils.getPath(url);
-        String protocol = UrlUtils.getProtocol(url);
-
-        httpSamplerProxy.setDomain(domain);
-        httpSamplerProxy.setPath(path);
-
-        if (port != -1) {
-            httpSamplerProxy.setPort(port);
-        }
-        httpSamplerProxy.setProtocol(protocol);
 
         Arguments arguments = new Arguments();
         HTTPArgument argument;
-
 
 
         for (PostmanQuery query : postmanItem.getRequest().getUrl().getQueries()) {

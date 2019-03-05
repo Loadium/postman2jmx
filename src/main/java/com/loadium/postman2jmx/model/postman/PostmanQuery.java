@@ -3,6 +3,8 @@ package com.loadium.postman2jmx.model.postman;
 public class PostmanQuery {
     private String key;
     private String value;
+    private String description;
+    private String disabled;
 
 
     public PostmanQuery() {
@@ -22,5 +24,21 @@ public class PostmanQuery {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(String disabled) {
+        this.disabled = disabled;
     }
 }
