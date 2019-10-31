@@ -14,10 +14,8 @@ public class JmxBodyBuilderFactory {
 
     public static IJmxBodyBuilder getJmxBodyBuilder(PostmanItem postmanItem) throws UnsupportedJmxFileBuilderException {
         String responseBodyMode = null;
-        try{
+        if (postmanItem.getRequest().getBody() != null) {
             responseBodyMode = postmanItem.getRequest().getBody().getMode();
-        }catch (NullPointerException e) {
-            throw e;
         }
 
         if (responseBodyMode == null || ResponseBodyMode.EMPTY.getMode().equals(responseBodyMode)) {

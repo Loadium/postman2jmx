@@ -1,5 +1,8 @@
 package com.loadium.postman2jmx.model.postman;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PostmanQuery {
     private String key;
     private String value;

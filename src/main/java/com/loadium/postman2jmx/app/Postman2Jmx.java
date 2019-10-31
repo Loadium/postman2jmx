@@ -17,6 +17,7 @@ public class Postman2Jmx {
 
 
     public static void main(String[] args) {
+
         try {
             if (args.length != 2) {
                 throw new InvalidArgumentsException();

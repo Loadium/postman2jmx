@@ -6,6 +6,8 @@ import com.loadium.postman2jmx.exception.NullPostmanCollectionException;
 import com.loadium.postman2jmx.model.jmx.*;
 import com.loadium.postman2jmx.model.postman.PostmanCollection;
 import com.loadium.postman2jmx.model.postman.PostmanItem;
+import org.apache.jmeter.config.Argument;
+import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.extractor.json.jsonpath.JSONPostProcessor;
 import org.apache.jmeter.protocol.http.control.HeaderManager;
@@ -17,9 +19,13 @@ import org.apache.jorphan.collections.HashTree;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public abstract class   AbstractJmxFileBuilder implements IJmxFileBuilder {
+public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
 
     protected JmxFile buildJmxFile(PostmanCollection postmanCollection, String jmxOutputFilePath) throws Exception {
         if (postmanCollection == null) {
@@ -34,7 +40,7 @@ public abstract class   AbstractJmxFileBuilder implements IJmxFileBuilder {
         config.setJMeterHome();
 
         // TestPlan
-        TestPlan testPlan = JmxTestPlan.newInstance(postmanCollection.getInfo().getName());
+        TestPlan testPlan = JmxTestPlan.newInstance(postmanCollection.getInfo() != null ? postmanCollection.getInfo().getName() : "");
 
         // ThreadGroup controller
         LoopController loopController = JmxLoopController.newInstance();

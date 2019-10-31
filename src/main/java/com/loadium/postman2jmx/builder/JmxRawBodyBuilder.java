@@ -10,7 +10,7 @@ import org.apache.jmeter.protocol.http.util.HTTPArgument;
 public class JmxRawBodyBuilder extends AbstractJmxBodyBuilder {
 
     @Override
-    public HTTPSamplerProxy buildJmxBody(PostmanItem postmanItem) throws Exception {
+    public HTTPSamplerProxy buildJmxBody(PostmanItem postmanItem)  {
 
         HTTPSamplerProxy httpSamplerProxy = JmxHTTPSamplerProxy.newInstance(postmanItem);
 

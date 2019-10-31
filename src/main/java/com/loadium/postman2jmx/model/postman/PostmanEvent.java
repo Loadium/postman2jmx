@@ -26,7 +26,7 @@ public class PostmanEvent {
     public PostmanEvent(String listen, PostmanScript script) {
         this.listen = listen;
         this.script = script;
-        this.variables = ValueUtils.extractVariables(script.getExec());
+        this.variables = ValueUtils.extractVariables(script.getExecs());
     }
 
     public String getListen() {
@@ -43,7 +43,7 @@ public class PostmanEvent {
 
     public void setScript(PostmanScript script) {
         this.script = script;
-        this.variables = ValueUtils.extractVariables(script.getExec());
+        this.variables = ValueUtils.extractVariables(script.getExecs());
 
     }
 

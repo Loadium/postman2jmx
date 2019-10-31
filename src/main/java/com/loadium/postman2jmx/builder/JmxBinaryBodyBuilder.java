@@ -9,12 +9,12 @@ import org.apache.jmeter.protocol.http.util.HTTPFileArg;
 public class JmxBinaryBodyBuilder extends AbstractJmxBodyBuilder {
 
     @Override
-    public HTTPSamplerProxy buildJmxBody(PostmanItem postmanItem) throws Exception {
+    public HTTPSamplerProxy buildJmxBody(PostmanItem postmanItem)  {
         HTTPSamplerProxy httpSamplerProxy = JmxHTTPSamplerProxy.newInstance(postmanItem);
         PostmanFileBody fileBody = postmanItem.getRequest().getBody().getFile();
 
         HTTPFileArg argument = new HTTPFileArg();
-        argument.setPath(fileBody.getSrc());
+        argument.setPath(fileBody.getSrc() == null ? "" : fileBody.getSrc());
         argument.setParamName(" ");
         argument.setMimeType(" ");
 

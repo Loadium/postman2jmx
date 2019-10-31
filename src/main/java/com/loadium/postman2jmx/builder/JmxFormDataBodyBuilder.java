@@ -14,7 +14,7 @@ import java.util.List;
 public class JmxFormDataBodyBuilder extends AbstractJmxBodyBuilder {
 
     @Override
-    public HTTPSamplerProxy buildJmxBody(PostmanItem postmanItem) throws Exception {
+    public HTTPSamplerProxy buildJmxBody(PostmanItem postmanItem) {
         HTTPSamplerProxy httpSamplerProxy = JmxHTTPSamplerProxy.newInstance(postmanItem);
 
         Arguments arguments = new Arguments();
