@@ -37,7 +37,13 @@ public class JmxHTTPSamplerProxy {
         if (UrlUtils.isVariableUrl(rawUrl)) {
             String url = UrlUtils.getVariableUrl(rawUrl);
             String path = UrlUtils.getVariablePath(rawUrl);
+            String protocol = UrlUtils.getVariableProtocol(rawUrl);
+            int port = UrlUtils.getVariablePort(rawUrl);
 
+            if (port != -1) {
+                httpSamplerProxy.setPort(port);
+            }
+            httpSamplerProxy.setProtocol(protocol);
             httpSamplerProxy.setDomain(url);
             httpSamplerProxy.setPath(path);
         } else {

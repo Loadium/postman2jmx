@@ -1,6 +1,7 @@
 package com.loadium.postman2jmx.model.postman;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.loadium.postman2jmx.utils.ValueUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostmanRawBody {
@@ -19,6 +20,6 @@ public class PostmanRawBody {
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.value = ValueUtils.value(value);
     }
 }

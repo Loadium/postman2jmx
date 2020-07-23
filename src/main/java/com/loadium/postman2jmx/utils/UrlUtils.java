@@ -8,7 +8,11 @@ import java.util.regex.Pattern;
 public class UrlUtils {
     private static String URL_VARIABLE_PATTERN = "\\$\\{(.*?)}";
 
+    private static String URL_PARTITIONS_PATTERN = "^((http[s]?|ftp):\\/)?\\/?([^:\\/\\s]+)(:([^\\/]*))?((\\/?(?:[^\\/\\?#]+\\/+)*)([^\\?#]*))(\\?([^#]*))?(#(.*))?$";
+
     private static Pattern pattern = Pattern.compile(URL_VARIABLE_PATTERN);
+
+    private static Pattern urlPartitionPattern = Pattern.compile(URL_PARTITIONS_PATTERN);
 
 
     public static URL getUrl(String httpUrl) throws MalformedURLException {
@@ -46,15 +50,30 @@ public class UrlUtils {
     }
 
     public static String getVariableUrl(String url) {
-        if (url.contains("/")) {
-            return url.substring(0, url.indexOf("/"));
-        } else if (url.contains("}")) {
-            return url.substring(0, url.indexOf("}"));
-        }
-        return url;
+        Matcher matcher = urlPartitionPattern.matcher(url);
+        matcher.matches();
+        return matcher.group(3);
     }
 
     public static String getVariablePath(String url) {
-        return url.substring(url.lastIndexOf("}") + 1);
+        Matcher matcher = urlPartitionPattern.matcher(url);
+        matcher.matches();
+        String path = matcher.group(6);
+        if (matcher.group(9) != null) {
+            path = path + matcher.group(9);
+        }
+        return path;
+    }
+
+    public static String getVariableProtocol(String url) {
+        Matcher matcher = urlPartitionPattern.matcher(url);
+        matcher.matches();
+        return matcher.group(2);
+    }
+
+    public static int getVariablePort(String url) {
+        Matcher matcher = urlPartitionPattern.matcher(url);
+        matcher.matches();
+        return matcher.group(5) != null ? Integer.valueOf(matcher.group(5)) : -1;
     }
 }
