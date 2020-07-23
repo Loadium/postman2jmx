@@ -16,6 +16,7 @@ import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.testelement.TestPlan;
 import org.apache.jmeter.threads.ThreadGroup;
 import org.apache.jorphan.collections.HashTree;
+import org.apache.jorphan.collections.ListedHashTree;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -65,15 +66,18 @@ public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
         }
 
         // Create TestPlan hash tree
-        HashTree testPlanHashTree = new HashTree();
+        HashTree testPlanHashTree = new ListedHashTree();
         testPlanHashTree.add(testPlan);
 
         // Add ThreadGroup to TestPlan hash tree
-        HashTree threadGroupHashTree = new HashTree();
+        HashTree threadGroupHashTree = new ListedHashTree();
         threadGroupHashTree = testPlanHashTree.add(testPlan, threadGroup);
 
+        // Add Http Cookie Manager
+        threadGroupHashTree.add(JmxCookieManager.newInstance());
+
         // Add Http Sampler to ThreadGroup hash tree
-        HashTree httpSamplerHashTree = new HashTree();
+        HashTree httpSamplerHashTree = new ListedHashTree();
 
         // Add header manager hash tree
         HashTree headerHashTree = null;

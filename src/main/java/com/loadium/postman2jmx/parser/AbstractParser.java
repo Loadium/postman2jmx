@@ -39,7 +39,7 @@ public abstract class AbstractParser implements IParser {
 
     protected void getItems(PostmanCollection postmanCollection) {
         List<PostmanItem> items = PostmanCollectionUtils.getItems(postmanCollection);
-        Collections.sort(items);
+        //Collections.sort(items);
         postmanCollection.setItems(items);
     }
 }

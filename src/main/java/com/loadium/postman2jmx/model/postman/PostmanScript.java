@@ -21,9 +21,8 @@ public class PostmanScript {
     @JsonProperty("type")
     private String type;
 
-    @JsonProperty(value = "exec")
+    @JsonProperty("exec")
     private List<String> execs = new ArrayList<>();
-
 
     public PostmanScript() {
     }
@@ -41,12 +40,11 @@ public class PostmanScript {
         this.type = type;
     }
 
-    public List<String> getExecs() {
+    public List<String> getExec() {
         return execs;
     }
 
-    @JsonDeserialize(using = ExecDeserializer.class)
-    public void setExecs(ExecDeserializer.ExecData execData) {
-        this.execs.addAll(execData.getValues());
+    public void setExec(List<String> execs) {
+        this.execs = execs;
     }
 }

@@ -9,7 +9,7 @@ public class JmxLoopController {
     public static LoopController newInstance() {
         LoopController loopController = new LoopController();
         loopController.setEnabled(true);
-        loopController.setLoops(5);
+        loopController.setLoops(1);
         loopController.setProperty(TestElement.TEST_CLASS, LoopController.class.getName());
         loopController.setProperty(TestElement.GUI_CLASS, LoopControlPanel.class.getName());
 
