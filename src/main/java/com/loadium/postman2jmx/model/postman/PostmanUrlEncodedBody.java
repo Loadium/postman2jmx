@@ -2,6 +2,7 @@ package com.loadium.postman2jmx.model.postman;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.loadium.postman2jmx.utils.ValueUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostmanUrlEncodedBody {
@@ -41,7 +42,7 @@ public class PostmanUrlEncodedBody {
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.value = ValueUtils.value(value);
     }
 
     public String getDescription() {

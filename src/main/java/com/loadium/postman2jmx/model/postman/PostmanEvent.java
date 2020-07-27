@@ -7,6 +7,7 @@ import com.loadium.postman2jmx.utils.ValueUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostmanEvent {
@@ -20,13 +21,15 @@ public class PostmanEvent {
     @JsonIgnore
     private List<String> variables = new ArrayList<>();
 
+    @JsonIgnore
+    private List<String> variableValues = new ArrayList<>();
+
     public PostmanEvent() {
     }
 
     public PostmanEvent(String listen, PostmanScript script) {
         this.listen = listen;
-        this.script = script;
-        this.variables = ValueUtils.extractVariables(script.getExecs());
+        setScript(script);
     }
 
     public String getListen() {
@@ -43,11 +46,19 @@ public class PostmanEvent {
 
     public void setScript(PostmanScript script) {
         this.script = script;
-        this.variables = ValueUtils.extractVariables(script.getExecs());
+        Map<String, String> varMappings = ValueUtils.extractVariablesWithValues(script.getExec());
+        varMappings.forEach((variable, value) -> {
+            this.variables.add(variable);
+            this.variableValues.add(value);
+        });
 
     }
 
     public List<String> getVariables() {
         return variables;
+    }
+
+    public List<String> getVariableValues() {
+        return variableValues;
     }
 }

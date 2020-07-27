@@ -3,6 +3,7 @@ package com.loadium.postman2jmx.model.postman;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.loadium.postman2jmx.utils.ResponseBodyMode;
+import com.loadium.postman2jmx.utils.ValueUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class PostmanBody {
 
     public void setRaw(PostmanRawBody raw) {
         this.raw = raw;
+        this.raw.setValue(ValueUtils.value(raw.getValue()));
     }
 
     public List<PostmanFormDataBody> getFormDataList() {

@@ -1,6 +1,7 @@
 package com.loadium.postman2jmx.model.postman;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.loadium.postman2jmx.utils.ValueUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostmanQuery {
@@ -18,7 +19,7 @@ public class PostmanQuery {
     }
 
     public void setKey(String key) {
-        this.key = key;
+        this.key = ValueUtils.value(key);
     }
 
     public String getValue() {
@@ -26,7 +27,7 @@ public class PostmanQuery {
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.value = ValueUtils.value(value);
     }
 
     public String getDescription() {
