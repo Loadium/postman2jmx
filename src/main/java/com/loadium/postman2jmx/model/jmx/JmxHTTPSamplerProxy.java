@@ -43,7 +43,9 @@ public class JmxHTTPSamplerProxy {
             if (port != -1) {
                 httpSamplerProxy.setPort(port);
             }
-            httpSamplerProxy.setProtocol(protocol);
+            if (protocol != null) {
+                httpSamplerProxy.setProtocol(protocol);
+            }
             httpSamplerProxy.setDomain(url);
             httpSamplerProxy.setPath(path);
         } else {

@@ -2,7 +2,6 @@ package com.loadium.postman2jmx.app;
 
 import com.loadium.postman2jmx.builder.JmxFileBuilder;
 import com.loadium.postman2jmx.exception.InvalidArgumentsException;
-import com.loadium.postman2jmx.model.jmx.JmxFile;
 import com.loadium.postman2jmx.model.postman.PostmanCollection;
 import com.loadium.postman2jmx.parser.IParser;
 import com.loadium.postman2jmx.parser.ParserFactory;
