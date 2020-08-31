@@ -9,7 +9,7 @@ public class ValueUtils {
     private static final String[] patterns = {".environment.set", ".setGlobalVariable", ".setEnvironmentVariable", ".globals.set"};
 
     public static String value(String value) {
-        if (value.contains("{{") && value.contains("}}")) {
+        if (value != null && value.contains("{{") && value.contains("}}")) {
             value = value.replace("{{", "${");
             value = value.replace("}}", "}");
         }
