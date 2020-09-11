@@ -17,7 +17,7 @@ public class JmxRawBodyBuilder extends AbstractJmxBodyBuilder {
 
         HTTPSamplerProxy httpSamplerProxy = JmxHTTPSamplerProxy.newInstance(postmanItem);
 
-        if (HttpMethod.POST.equalsIgnoreCase(httpSamplerProxy.getMethod()) || HttpMethod.PUT.equalsIgnoreCase(httpSamplerProxy.getMethod()) || HttpMethod.DELETE.equalsIgnoreCase(httpSamplerProxy.getMethod())) {
+        if (HttpMethod.POST.equalsIgnoreCase(httpSamplerProxy.getMethod()) || HttpMethod.PUT.equalsIgnoreCase(httpSamplerProxy.getMethod()) || HttpMethod.DELETE.equalsIgnoreCase(httpSamplerProxy.getMethod()) || httpSamplerProxy.getMethod().equalsIgnoreCase("PATCH")) {
             httpSamplerProxy.setPostBodyRaw(true);
             Arguments arguments = new Arguments();
             PostmanRawBody raw = postmanItem.getRequest().getBody().getRaw();
