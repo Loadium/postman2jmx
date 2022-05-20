@@ -6,8 +6,6 @@ import com.loadium.postman2jmx.exception.NullPostmanCollectionException;
 import com.loadium.postman2jmx.model.jmx.*;
 import com.loadium.postman2jmx.model.postman.PostmanCollection;
 import com.loadium.postman2jmx.model.postman.PostmanItem;
-import org.apache.jmeter.config.Argument;
-import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.extractor.json.jsonpath.JSONPostProcessor;
 import org.apache.jmeter.protocol.http.control.HeaderManager;
@@ -19,12 +17,7 @@ import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
 
@@ -49,53 +42,31 @@ public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
         // ThreadGroup
         ThreadGroup threadGroup = JmxThreadGroup.newInstance(loopController);
 
-        // HTTPSamplerProxy
-        List<HTTPSamplerProxy> httpSamplerProxies = new ArrayList<>();
-        List<HeaderManager> headerManagers = new ArrayList<>();
-
-        for (PostmanItem item : postmanCollection.getItems()) {
-          /*  if (!item.getEvent().isEmpty()) {
-                continue;
-            }*/
-
-            IJmxBodyBuilder bodyBuilder = JmxBodyBuilderFactory.getJmxBodyBuilder(item);
-            HTTPSamplerProxy httpSamplerProxy = bodyBuilder.buildJmxBody(item);
-            httpSamplerProxies.add(httpSamplerProxy);
-
-            headerManagers.add(JmxHeaderManager.newInstance(item.getName(), item.getRequest().getHeaders()));
-        }
-
         // Create TestPlan hash tree
         HashTree testPlanHashTree = new ListedHashTree();
         testPlanHashTree.add(testPlan);
 
         // Add ThreadGroup to TestPlan hash tree
-        HashTree threadGroupHashTree = new ListedHashTree();
-        threadGroupHashTree = testPlanHashTree.add(testPlan, threadGroup);
+        HashTree threadGroupHashTree = testPlanHashTree.add(testPlan, threadGroup);
 
         // Add Http Cookie Manager
         threadGroupHashTree.add(JmxCookieManager.newInstance());
 
-        // Add Http Sampler to ThreadGroup hash tree
-        HashTree httpSamplerHashTree = new ListedHashTree();
+        for (PostmanItem item : postmanCollection.getItems()) {
+            IJmxBodyBuilder bodyBuilder = JmxBodyBuilderFactory.getJmxBodyBuilder(item);
+            HTTPSamplerProxy httpSamplerProxy = bodyBuilder.buildJmxBody(item);
 
-        // Add header manager hash tree
-        HashTree headerHashTree = null;
-
-        // Add Java Sampler to ThreadGroup hash tree
-        for (int i = 0; i < httpSamplerProxies.size(); i++) {
-            HTTPSamplerProxy httpSamplerProxy = httpSamplerProxies.get(i);
-            HeaderManager headerManager = headerManagers.get(i);
-
-            httpSamplerHashTree = threadGroupHashTree.add(httpSamplerProxy);
-
-            headerHashTree = new HashTree();
-            headerHashTree = httpSamplerHashTree.add(headerManager);
-
-            PostmanItem postmanItem = postmanCollection.getItems().get(i);
-            if (!postmanItem.getEvents().isEmpty()) {
-                List<JSONPostProcessor> jsonPostProcessors = JmxJsonPostProcessor.getJsonPostProcessors(postmanItem);
+            // Add Http Sampler to ThreadGroup hash tree
+            HashTree httpSamplerHashTree = threadGroupHashTree.add(httpSamplerProxy);
+            if (!item.getEvents().isEmpty()) {
+                List<JSONPostProcessor> jsonPostProcessors = JmxJsonPostProcessor.getJsonPostProcessors(item);
                 httpSamplerHashTree.add(jsonPostProcessors);
+            }
+
+            // Add HTTP Header Manager (if headers are defined)
+            if (!item.getRequest().getHeaders().isEmpty()) {
+                HeaderManager headerManager = JmxHeaderManager.newInstance(item.getName(), item.getRequest().getHeaders());
+                httpSamplerHashTree.add(headerManager);
             }
         }
 
