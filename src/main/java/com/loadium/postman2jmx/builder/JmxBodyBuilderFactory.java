@@ -5,11 +5,18 @@ import com.loadium.postman2jmx.model.postman.PostmanItem;
 import com.loadium.postman2jmx.utils.ResponseBodyMode;
 
 public class JmxBodyBuilderFactory {
+
     private static JmxRawBodyBuilder jmxRawBodyFileBuilder;
+
     private static JmxFormDataBodyBuilder jmxFormDataBodyFileBuilder;
+
     private static JmxUrlEncodedBodyBuilder jmxUrlEncodedBodyFileBuilder;
+
     private static JmxBinaryBodyBuilder jmxBinaryBodyFileBuilder;
+
     private static JmxEmptyBodyBuilder jmxEmptyBodyBuilder;
+
+    private static JmxGraphQLBodyBuilder jmxGraphQLBodyFileBuilder;
 
 
     public static IJmxBodyBuilder getJmxBodyBuilder(PostmanItem postmanItem) throws UnsupportedJmxFileBuilderException {
@@ -30,6 +37,11 @@ public class JmxBodyBuilderFactory {
                 jmxRawBodyFileBuilder = new JmxRawBodyBuilder();
             }
             return jmxRawBodyFileBuilder;
+        } else if (ResponseBodyMode.GRAPHQL.getMode().equals(responseBodyMode)) {
+            if (jmxGraphQLBodyFileBuilder == null) {
+                jmxGraphQLBodyFileBuilder = new JmxGraphQLBodyBuilder();
+            }
+            return jmxGraphQLBodyFileBuilder;
         } else if (ResponseBodyMode.FORM_DATA.getMode().equals(responseBodyMode)) {
             if (jmxFormDataBodyFileBuilder == null) {
                 jmxFormDataBodyFileBuilder = new JmxFormDataBodyBuilder();
@@ -49,4 +61,5 @@ public class JmxBodyBuilderFactory {
             throw new UnsupportedJmxFileBuilderException("There is no Jxm builder for response body type: " + responseBodyMode);
         }
     }
+
 }

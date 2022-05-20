@@ -2,14 +2,9 @@ package com.loadium.postman2jmx.utils;
 
 import com.loadium.postman2jmx.model.postman.PostmanCollection;
 import com.loadium.postman2jmx.model.postman.PostmanItem;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PostmanCollectionUtils {
 
@@ -31,4 +26,5 @@ public class PostmanCollectionUtils {
         }
         return items;
     }
+
 }

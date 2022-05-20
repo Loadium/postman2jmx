@@ -7,8 +7,7 @@ import com.loadium.postman2jmx.utils.ValueUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
 import org.apache.jmeter.protocol.http.util.HTTPArgument;
-
-import javax.ws.rs.HttpMethod;
+import org.apache.jmeter.protocol.http.util.HTTPConstants;
 
 public class JmxRawBodyBuilder extends AbstractJmxBodyBuilder {
 
@@ -17,7 +16,7 @@ public class JmxRawBodyBuilder extends AbstractJmxBodyBuilder {
 
         HTTPSamplerProxy httpSamplerProxy = JmxHTTPSamplerProxy.newInstance(postmanItem);
 
-        if (HttpMethod.POST.equalsIgnoreCase(httpSamplerProxy.getMethod()) || HttpMethod.PUT.equalsIgnoreCase(httpSamplerProxy.getMethod()) || HttpMethod.DELETE.equalsIgnoreCase(httpSamplerProxy.getMethod())) {
+        if (HTTPConstants.POST.equalsIgnoreCase(httpSamplerProxy.getMethod()) || HTTPConstants.PUT.equalsIgnoreCase(httpSamplerProxy.getMethod()) || HTTPConstants.DELETE.equalsIgnoreCase(httpSamplerProxy.getMethod())) {
             httpSamplerProxy.setPostBodyRaw(true);
             Arguments arguments = new Arguments();
             PostmanRawBody raw = postmanItem.getRequest().getBody().getRaw();

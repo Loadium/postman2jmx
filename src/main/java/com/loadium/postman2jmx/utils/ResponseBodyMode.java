@@ -5,6 +5,7 @@ public enum ResponseBodyMode {
     URL_ENCODED("urlencoded"),
     FILE("file"),
     RAW("raw"),
+    GRAPHQL("graphql"),
     FORM_DATA("formdata"),
     EMPTY("empty");
 

@@ -23,6 +23,9 @@ public class PostmanBody {
     @JsonProperty("raw")
     private PostmanRawBody raw;
 
+    @JsonProperty("graphql")
+    private PostmanGraphQLBody graphql;
+
     @JsonProperty("formdata")
     private List<PostmanFormDataBody> formDataList = new ArrayList<>();
 
@@ -70,4 +73,13 @@ public class PostmanBody {
     public void setFormDataList(List<PostmanFormDataBody> formDataList) {
         this.formDataList = formDataList;
     }
+
+    public PostmanGraphQLBody getGraphql() {
+        return graphql;
+    }
+
+    public void setGraphql(PostmanGraphQLBody graphql) {
+        this.graphql = graphql;
+    }
+
 }
