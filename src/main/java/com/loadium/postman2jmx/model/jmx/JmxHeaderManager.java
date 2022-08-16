@@ -9,12 +9,12 @@ import org.apache.jmeter.testelement.TestElement;
 import java.util.List;
 
 public class JmxHeaderManager {
-    public static HeaderManager newInstance(String name, List<PostmanHeader> headers) {
+    public static HeaderManager newInstance(List<PostmanHeader> headers) {
         HeaderManager headerManager = new HeaderManager();
         headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
         headerManager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
         headerManager.setEnabled(true);
-        headerManager.setName(name);
+        headerManager.setName("HTTP Header Manager");
 
         for (PostmanHeader header : headers) {
 

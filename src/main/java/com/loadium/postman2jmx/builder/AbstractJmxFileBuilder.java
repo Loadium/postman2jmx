@@ -62,7 +62,7 @@ public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
             HTTPSamplerProxy httpSamplerProxy = bodyBuilder.buildJmxBody(item);
             httpSamplerProxies.add(httpSamplerProxy);
 
-            headerManagers.add(JmxHeaderManager.newInstance(item.getName(), item.getRequest().getHeaders()));
+            headerManagers.add(JmxHeaderManager.newInstance(item.getRequest().getHeaders()));
         }
 
         // Create TestPlan hash tree
