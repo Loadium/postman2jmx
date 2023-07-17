@@ -6,8 +6,6 @@ import com.loadium.postman2jmx.exception.NullPostmanCollectionException;
 import com.loadium.postman2jmx.model.jmx.*;
 import com.loadium.postman2jmx.model.postman.PostmanCollection;
 import com.loadium.postman2jmx.model.postman.PostmanItem;
-import org.apache.jmeter.config.Argument;
-import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.extractor.json.jsonpath.JSONPostProcessor;
 import org.apache.jmeter.protocol.http.control.HeaderManager;
@@ -19,12 +17,7 @@ import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
 
 public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
 
@@ -58,6 +51,7 @@ public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
                 continue;
             }*/
 
+            item.getRequest().getUrl().getQueries().removeIf(query -> Objects.equals(query.getKey(), ""));
             IJmxBodyBuilder bodyBuilder = JmxBodyBuilderFactory.getJmxBodyBuilder(item);
             HTTPSamplerProxy httpSamplerProxy = bodyBuilder.buildJmxBody(item);
             httpSamplerProxies.add(httpSamplerProxy);
