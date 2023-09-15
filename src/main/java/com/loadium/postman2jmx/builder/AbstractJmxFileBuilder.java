@@ -51,7 +51,7 @@ public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
                 continue;
             }*/
 
-            item.getRequest().getUrl().getQueries().removeIf(query -> Objects.equals(query.getKey(), ""));
+            removeEmptyQueries(item);
             IJmxBodyBuilder bodyBuilder = JmxBodyBuilderFactory.getJmxBodyBuilder(item);
             HTTPSamplerProxy httpSamplerProxy = bodyBuilder.buildJmxBody(item);
             httpSamplerProxies.add(httpSamplerProxy);
@@ -116,4 +116,10 @@ public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
         return jmxFile;
     }
 
+    private void removeEmptyQueries(PostmanItem item) {
+        item.getRequest().getUrl().getQueries().removeIf(query -> Objects.equals(query.getKey(), "")
+                || Objects.equals(query.getValue(), "") || Objects.equals(query.getKey(), null)
+                || Objects.equals(query.getValue(), null) || Objects.equals(query.getKey(), " ")
+                || Objects.equals(query.getValue(), " "));
+    }
 }
