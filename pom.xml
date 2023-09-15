@@ -6,7 +6,7 @@
 
     <groupId>loadium</groupId>
     <artifactId>postman2jmx</artifactId>
-    <version>0.2.5</version>
+    <version>0.2.8</version>
 
     <dependencies>
         <dependency>
