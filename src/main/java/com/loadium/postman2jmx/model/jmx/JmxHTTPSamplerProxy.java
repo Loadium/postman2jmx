@@ -77,6 +77,9 @@ public class JmxHTTPSamplerProxy {
 
 
         for (PostmanQuery query : postmanItem.getRequest().getUrl().getQueries()) {
+            if(query.getKey() == null) {
+                continue;
+            }
             argument = new HTTPArgument();
             argument.setName(query.getKey());
             argument.setValue(query.getValue());
