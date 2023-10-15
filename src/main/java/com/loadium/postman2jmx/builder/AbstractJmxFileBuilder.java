@@ -1,5 +1,7 @@
 package com.loadium.postman2jmx.builder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loadium.postman2jmx.config.Postman2JmxConfig;
 import com.loadium.postman2jmx.exception.NoPostmanCollectionItemException;
 import com.loadium.postman2jmx.exception.NullPostmanCollectionException;
@@ -13,13 +15,19 @@ import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
 import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.testelement.TestPlan;
 import org.apache.jmeter.threads.ThreadGroup;
+import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
 
 public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
+    private static final Logger log = LoggerFactory.getLogger(AbstractJmxFileBuilder.class);
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     protected JmxFile buildJmxFile(PostmanCollection postmanCollection, String jmxOutputFilePath) throws Exception {
         if (postmanCollection == null) {
@@ -117,6 +125,16 @@ public abstract class AbstractJmxFileBuilder implements IJmxFileBuilder {
     }
 
     private void removeEmptyQueries(PostmanItem item) {
+        if (item.getRequest().getUrl() == null){
+            String s = null;
+            try {
+                s = objectMapper.writeValueAsString(item);
+            } catch (Throwable e) {
+                log.error("error:",e);
+            }
+            log.error("invalid postman request,url is null.item:{}",s);
+            throw new RuntimeException();
+        }
         item.getRequest().getUrl().getQueries().removeIf(query -> Objects.equals(query.getKey(), "")
                 || Objects.equals(query.getValue(), "") || Objects.equals(query.getKey(), null)
                 || Objects.equals(query.getValue(), null) || Objects.equals(query.getKey(), " ")
